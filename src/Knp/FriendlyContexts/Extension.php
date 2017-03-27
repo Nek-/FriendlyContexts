@@ -101,9 +101,14 @@ class Extension implements ExtensionInterface
                         ->end()
                     ->end()
                 ->end()
-                ->scalarNode('smartTag')
-                    ->defaultValue('smartStep')
+                ->arrayNode('smartStep')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultFalse()->end()
+                        ->scalarNode('tagName')->defaultValue('smartStep')->end()
+                    ->end()
                 ->end()
+                ->scalarNode('smartTag')->end()
             ->end()
         ;
     }

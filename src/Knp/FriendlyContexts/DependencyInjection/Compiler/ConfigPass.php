@@ -17,6 +17,11 @@ class ConfigPass implements CompilerPassInterface
         }
     }
 
+    /**
+     * @param string $name
+     * @param array  $parameters
+     * @param array  $config
+     */
     protected function buildParameters($name, &$parameters, $config)
     {
         foreach ($config as $key => $element) {
@@ -24,6 +29,14 @@ class ConfigPass implements CompilerPassInterface
                 $this->buildParameters(sprintf('%s.%s', $name, $key), $parameters, $element);
             }
             $parameters[sprintf('%s.%s', $name, $key)] = $element;
+        }
+
+        if (!empty($parameters['friendly.smartTag'])) {
+           if ($parameters['friendly.smartStep.tagName'] === 'smartStep') {
+               $parameters['friendly.smartStep.tagName'] = $parameters['friendly.smartTag'];
+           }
+
+           // TODO: trigger deprecation error
         }
     }
 
